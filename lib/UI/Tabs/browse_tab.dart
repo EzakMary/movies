@@ -11,12 +11,12 @@ class BrowseTab extends StatefulWidget {
 }
 
 class _BrowseTabState extends State<BrowseTab> {
-  late Future<List<Movie>> category;
+  late Future<List<Genres>> category;
 
   void initState() {
     // TODO: implement initState
     super.initState();
-    category = Api().getTrendingMovies();
+    category = Api().getCategory();
   }
 
   @override

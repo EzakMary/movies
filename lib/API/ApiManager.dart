@@ -80,9 +80,19 @@ class Api {
     }
   }
 
-  Future<List<Movie>> getCategory() async {
+  Future<List<Genres>> getCategory() async {
+    final response = await http.get(Uri.parse(_categoryUrl));
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(response.body)['genres'] as List;
+      return decodedData.map((movie) => Genres.fromJson(movie)).toList();
+    } else {
+      throw Exception('Something happened');
+    }
+  }
+
+  static Future<List<Movie>> getListCategory(int? id) async {
     final response = await http.get(Uri.parse(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=ad6700b316c170aaf5439564bea956d4"));
+        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=$id&api_key=ad6700b316c170aaf5439564bea956d4"));
     if (response.statusCode == 200) {
       final decodedData = json.decode(response.body)['results'] as List;
       return decodedData.map((movie) => Movie.fromJson(movie)).toList();
